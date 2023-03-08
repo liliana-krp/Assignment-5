@@ -1,0 +1,100 @@
+---
+title: "Assignment-5"
+author: "Liliana Rangel-Parra"
+date: "2023-03-06"
+output: 
+  html_document:
+    theme: spacelab
+    highlight: textmate
+    toc: true
+    toc_float: true
+    toc_depth: 3
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load information
+```{r Load libraries and data, message = FALSE}
+
+# load library
+library(FSAdata)
+library(tidyverse)
+library(here)
+
+# load in data
+rawdata <- read_csv(here("data", "siscowet.csv"))
+```
+
+## Clean data
+```{r Clean data}
+# initial plot
+rawdata %>%
+  ggplot(aes(x = len,
+             y = wgt)) +
+  geom_point()
+
+# identify outlier and remove
+which(rawdata$wgt >= 15000)
+cleandata <- rawdata %>%
+  filter(!row_number() %in% 541)
+
+# identify NAs and remove
+cleandata <- cleandata %>%
+  drop_na()
+```
+
+## Exploratory graph
+```{r Exploratory graphs}
+# customize output
+pdf("figures/exploratory.pdf",
+    width = 8, height = 7)
+
+# new plot attempt
+explor <- cleandata %>%
+  ggplot(aes(x = len,
+             y = wgt)) +
+  geom_point() +
+  theme_minimal() +
+  xlab("Total length (mm)") +
+  ylab("Weight (g)") +
+  theme(axis.text = element_text(size = 12)) +
+  labs(title = "Siscowet Lake Trout weight-length relationship")
+
+# close graphical device
+dev.off()
+
+# exhibit for knit
+explor
+
+```
+
+
+## Expository graph
+``` {r Expository graph}
+
+# customize output
+pdf("figures/expository.pdf",
+    width = 8, height = 7)
+
+exposi <- cleandata %>%
+  ggplot(aes(x = len,
+             y = wgt,
+             color = sex)) +
+  geom_point() +
+  theme_minimal() +
+  xlab("Total length (mm)") +
+  ylab("Weight (g)") +
+  theme(axis.text = element_text(size = 12)) +
+  labs(color = "Sex",
+       title = "Siscowet Lake Trout weight-length relationship") +
+  geom_smooth(method = "lm", formula = y~x)
+
+# close graphical device
+dev.off()
+
+# exhibit for knit
+exposi
+
+```
+
