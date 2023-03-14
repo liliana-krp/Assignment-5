@@ -1,14 +1,8 @@
 ---
 title: "Assignment-5"
 author: "Liliana Rangel-Parra"
-date: "2023-03-06"
-output: 
-  html_document:
-    theme: spacelab
-    highlight: textmate
-    toc: true
-    toc_float: true
-    toc_depth: 3
+date: "2023-03-13"
+output: pdf_document
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -22,6 +16,7 @@ library(FSAdata)
 library(tidyverse)
 library(here)
 
+
 # load in data
 rawdata <- read_csv(here("data", "siscowet.csv"))
 ```
@@ -33,6 +28,8 @@ rawdata %>%
   ggplot(aes(x = len,
              y = wgt)) +
   geom_point()
+
+dev.off()
 
 # identify outlier and remove
 which(rawdata$wgt >= 15000)
@@ -46,10 +43,6 @@ cleandata <- cleandata %>%
 
 ## Exploratory graph
 ```{r Exploratory graphs}
-# customize output
-pdf("figures/exploratory.pdf",
-    width = 8, height = 7)
-
 # new plot attempt
 explor <- cleandata %>%
   ggplot(aes(x = len,
@@ -61,10 +54,6 @@ explor <- cleandata %>%
   theme(axis.text = element_text(size = 12)) +
   labs(title = "Siscowet Lake Trout weight-length relationship")
 
-# close graphical device
-dev.off()
-
-# exhibit for knit
 explor
 
 ```
@@ -72,10 +61,6 @@ explor
 
 ## Expository graph
 ``` {r Expository graph}
-
-# customize output
-pdf("figures/expository.pdf",
-    width = 8, height = 7)
 
 exposi <- cleandata %>%
   ggplot(aes(x = len,
@@ -90,11 +75,17 @@ exposi <- cleandata %>%
        title = "Siscowet Lake Trout weight-length relationship") +
   geom_smooth(method = "lm", formula = y~x)
 
-# close graphical device
-dev.off()
-
-# exhibit for knit
 exposi
 
+```
+
+``` {r save photos}
+pdf("figures/explor.pdf")
+explor
+dev.off()
+
+pdf("figures/exposi.pdf")
+exposi
+dev.off()
 ```
 
