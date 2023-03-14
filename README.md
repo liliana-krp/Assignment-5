@@ -21,4 +21,4 @@ This assignment will help us create an expository figure from an exploratory fig
 - Assignment-5.html: when I was accidentally putting output as html
 - ignoring .gitignore, .Rproj.use, hw_06.txt/log
 
-
+#### please let me know if you are still having issues viewing the final figures in pdf format
